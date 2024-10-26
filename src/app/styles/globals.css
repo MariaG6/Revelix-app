@@ -1,0 +1,8 @@
+@import '/styles/normalize.css';
+
+:root {
+    --text-color-white: rgba(255, 255, 255, 1);
+    --background-color-grey: rgba(255, 255, 255, 0.5);
+    --background-color-black: rgba(0, 0, 0, 1);
+}
+

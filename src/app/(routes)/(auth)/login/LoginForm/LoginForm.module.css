@@ -1,0 +1,28 @@
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 327px;
+    gap: 10px; 
+  }
+  
+  .form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(117, 27, 92, 1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 1);
+    font-weight: bolder;
+    background-color: black;
+  }
+  
+  .form button {
+    width: 327px;
+    padding: 10px;
+    background-color: rgba(117, 27, 92, 1);
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
