@@ -1,48 +1,71 @@
 'use client'
-
+import { useRouter } from "next/navigation";
 import styles from "./LoginForm.module.css";
-import { useAuth } from "../../../../../context/Auth.Context";
 import { useState } from "react";
+import { setJwtToken } from "@/api/auth/route";
 
 export default function LoginForm() {
-  const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+
     try {
-      await login(email, password);
-    } catch (err) {
-      setError("Credenciales inválidas");
-      console.error("Error al iniciar sesión:", err);
+      const response = await fetch("/api/auth/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+
+        if (token) {
+          setJwtToken(token);
+          router.push("/");
+          console.log("Welcome!");
+        } else {
+          setError("Token not found in response.");
+          console.log("Token not found in response.");
+        }
+      } else {
+        const errorMessage = `Login failed with status: ${response.status}`;
+        setError(errorMessage);
+        console.log("Log in Failed");
+      }
+    } catch (error) {
+      console.error("An error occurred while logging in:", error);
+      setError("An error occurred while logging in. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <input
-        type="email"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
+        <input
         placeholder="Username"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
         placeholder="Password"
-        required
-      />
-      <button type="submit">Sign in</button>
-      {error && <p className={styles.error}>{error}</p>}
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      {error && <div className={styles.error}>{error}</div>}
+      <button type="submit">Login</button>
     </form>
   );
 }
-
-// Estilos botón

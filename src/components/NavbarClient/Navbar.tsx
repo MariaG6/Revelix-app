@@ -3,7 +3,7 @@ import styles from "./NavBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-export function Navbar() {
+export function NavbarClient() {
   return (
     <nav className={styles.navbar}>
     <div>
@@ -24,5 +24,3 @@ export function Navbar() {
   );
 }
 
-// Más de un valor className={`${styles.mobile} ${styles.mobile}`}
-// Un valor className={styles.desktop}
