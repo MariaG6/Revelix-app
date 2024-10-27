@@ -1,0 +1,12 @@
+.footer {
+    display: flex;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    justify-content: space-between;
+  }
+  
+  .column {
+    flex: 1;
+    padding: 10px;
+  }

@@ -1,10 +1,13 @@
-import { Navbar } from '@/components/Navbar'
+import HomeClient from '@/components/Home/HomeClient'
+import { NavbarClient } from '@/components/NavbarClient'
 import React from 'react'
 
 export default function HomePage() {
+
   return (
     <div>
-      <Navbar/>
+      <NavbarClient/>
+      <HomeClient/>
     </div>
   )
 }
