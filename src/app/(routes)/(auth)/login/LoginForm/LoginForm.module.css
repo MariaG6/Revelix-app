@@ -10,25 +10,26 @@
   .loginForm input {
     width: 100%;
     padding: 10px;
-    border: 1px solid rgba(117, 27, 92, 1);
+    border: 1px solid var(--background-color-purple);
     border-radius: 8px;
-    color: rgba(255, 255, 255, 1);
+    color: var(--text-color-white);
     font-weight: bolder;
-    background-color: black;
+    background-color: var(--background-color-black);
   }
   
   .loginForm button {
     width: 327px;
     padding: 10px;
-    background-color: rgba(117, 27, 92, 1);
-    color: rgba(255, 255, 255, 1);
+    background-color: var(--background-color-purple);
+    color: var(--text-color-white);
     border: none;
     border-radius: 8px;
     cursor: pointer;
   }
 
   .loginForm button:hover {
-    background-color: #005bb5;
+    background-color: var(--background-color-purple-hover);
+    transform: scale(1.05); 
   }
   
   .error {

@@ -1,26 +1,23 @@
-import React from "react";
+'use client'
+import React, { useState } from "react";
 import styles from "./NavBar.module.css";
-import Image from "next/image";
-import Link from "next/link";
+import { UserProfile } from "./Userprofile";
 
 export function NavbarClient() {
+  const [showLogout, setShowLogout] = useState(false);
+
+  const handleUserProfileClick = () => {
+    setShowLogout(!showLogout);
+    console.log("User profile clicked");	
+  };
+
   return (
     <nav className={styles.navbar}>
-    <div>
-      <Link href="/" className={styles.homeLink}>
-        Home
-      </Link>
-    </div>
-    <div className={styles.circle}>
-    <Image
-        src="/images/man.svg"
-        alt="user profile"
-        width={38}
-        height={38}
-        className={styles.userImage}
-      />
+      <div onClick={handleUserProfileClick}>
+        <UserProfile />
       </div>
-  </nav>
+      {showLogout && <button className={styles.logoutButton}>Log Out</button>}
+    </nav>
   );
 }
 
