@@ -1,15 +1,8 @@
-.movie-slider {
-    display: flex;
-    overflow-x: scroll;
-  }
-  
-  .movie-item {
-    margin: 10px;
-    flex: 0 0 auto;
-  }
-  
-  .movie-item img {
-    width: 150px;
-    height: 225px;
-    object-fit: cover;
-  }
+.homeClientContainer {
+  background-color: var(--background-color-grey);
+  position: relative;
+}
+
+.sliderContainer {
+  position: relative;
+}
