@@ -6,7 +6,7 @@ export function UserProfile() {
   return (
     <div className={styles.circle}>
       <Image
-        src="/images/man.svg"
+        src="/man.svg"
         alt="user profile"
         width={38}
         height={38}
