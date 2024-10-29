@@ -27,16 +27,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content:space-between; 
   padding: 10px;
-  background: var(--background-color-black);
+  background: var(--background-color-black-transparent);
   width: 343px;
   height: 394px;
-  top: 103px;
-  left: 16px;
   gap: 0px;
   border-radius: 23px;
   z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .formTitle {
@@ -44,11 +46,24 @@
   margin-bottom: 1.75rem;
   font-size: 1.875rem;
   line-height: 2.25rem;
+  text-align: center; 
+  width: 100%;
+}
+
+.formText {
+  color: var(--text-color-white);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
   text-align: left;
 }
 
-.formText{
-    color:var(--text-color-white);
+@media (min-width: 768px) {
+  .formContainer {
+    left: auto;
+    right: 120px; 
+    transform: translateY(-50%);
+  }
 }
 .formText:hover {
     text-decoration: underline;
