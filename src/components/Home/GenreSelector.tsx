@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import styles from "./GenreSelector.module.css";
+import { GenreSelectorProps } from "@/app/types";
 
-const GenreSelector: React.FC<GenreSelectorProps> = ({ genres, movies }) => {
+const GenreSelector: React.FC<GenreSelectorProps> = ({ genres }) => {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
   const handleGenreClick = (genreId: string) => {
     setSelectedGenre(genreId);
   };
-
-  const filteredMovies = selectedGenre
-    ? movies.filter((movie) => movie.genre === selectedGenre)
-    : [];
 
   return (
     <div className={styles.container}>
