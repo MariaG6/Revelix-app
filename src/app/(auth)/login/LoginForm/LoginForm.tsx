@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import styles from "./LoginForm.module.css";
 import { useState } from "react";
-import { setJwtToken } from "@/api/auth/route";
+import { setJwtToken } from "@/api/route";
 
 export default function LoginForm() {
   const [email, setEmail] = useState<string>("");

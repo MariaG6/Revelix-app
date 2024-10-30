@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./GenreSelector.module.css";
-import { GenreSelectorProps } from "@/app/types";
+import { Genre } from "@/app/types";
 
-const GenreSelector: React.FC<GenreSelectorProps> = ({ genres }) => {
+const GenreSelector: React.FC<Genre> = ({ genres }) => {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
   const handleGenreClick = (genreId: string) => {

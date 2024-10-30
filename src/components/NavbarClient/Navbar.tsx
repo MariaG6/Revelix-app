@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./NavBar.module.css";
 
-import { removeJwtToken } from "@/api/auth/route";
+import { removeJwtToken } from "@/api/route";
 import { UserProfile } from "./UserProfile";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,6 @@ export function NavbarClient() {
 
   const handleUserProfileClick = () => {
     setShowLogout(!showLogout);
-    console.log("User profile clicked");
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -30,6 +29,7 @@ export function NavbarClient() {
   }, []);
 
   const handleLogout = () => {
+    console.log('Logging out');
     removeJwtToken();
     router.push("/login");
   };
@@ -39,9 +39,9 @@ export function NavbarClient() {
       <div onClick={handleUserProfileClick} ref={logoutRef}>
        <UserProfile />
       </div>
-      <div className={styles.btnContainer}>
+      <div className={styles.btnContainer} >
         {showLogout && (
-          <button className={styles.logoutButton} onClick={handleLogout}>
+          <button className={styles.logoutButton} onClick={handleLogout} >
             Sign Out
           </button>
         )}

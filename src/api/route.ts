@@ -15,4 +15,12 @@ export const getJwtToken = (): string | undefined => {
 };
 
 
-export const removeJwtToken = (): void => Cookies.remove('jwtToken');
+export const removeJwtToken = (): void => {
+  const token = Cookies.get('jwtToken');
+  if (token) {
+    Cookies.remove('jwtToken', { path: '/' });
+    console.log('JWT token removed');
+  } else {
+    console.log('No JWT token found');
+  }
+};

@@ -17,7 +17,7 @@ export interface MovieData {
   title: string;
 }
 
-export interface GenreSelectorProps {
+export interface Genre {
   genres: { id: string, name: string }[];
 }
 
