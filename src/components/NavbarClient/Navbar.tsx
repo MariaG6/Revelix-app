@@ -1,32 +1,20 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./NavBar.module.css";
 
 import { removeJwtToken } from "@/api/route";
 import { UserProfile } from "./UserProfile";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NavbarClient() {
   const [showLogout, setShowLogout] = useState(false);
-  const logoutRef = useRef<HTMLDivElement>(null);
-  const router = useRouter(); 
+  const router = useRouter();
+  const profileRef = useRef<HTMLDivElement>(null);
 
   const handleUserProfileClick = () => {
-    setShowLogout(!showLogout);
+    setShowLogout(prevShowLogout => !prevShowLogout);
   };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (logoutRef.current && !logoutRef.current.contains(event.target as Node)) {
-      setShowLogout(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleLogout = () => {
     console.log('Logging out');
@@ -36,16 +24,18 @@ export function NavbarClient() {
 
   return (
     <nav className={styles.navbar}>
-      <div onClick={handleUserProfileClick} ref={logoutRef}>
-       <UserProfile />
+      <Link href="/" className={styles.homeLink}> Home </Link>
+      <div ref={profileRef} onClick={handleUserProfileClick}>
+        <UserProfile />
       </div>
-      <div className={styles.btnContainer} >
-        {showLogout && (
-          <button className={styles.logoutButton} onClick={handleLogout} >
+
+      {showLogout && (
+        <div className={styles.btnContainer}>
+          <button className={styles.logoutButton} onClick={handleLogout}>
             Sign Out
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 }

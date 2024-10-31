@@ -1,12 +1,19 @@
 .navbar {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   z-index: 30;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
+}
+
+.homeLink {
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--text-color-white);
+  font-size: 1rem;
+  transition: var(--background-color-purple) 0.3s ease;
+  padding-left: 20px;
 }
 
 .circle {
