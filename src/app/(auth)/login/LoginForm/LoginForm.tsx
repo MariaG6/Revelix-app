@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import styles from "./LoginForm.module.css";
 import { useState } from "react";
-import { setJwtToken } from "@/api/route";
+import { login } from "@/api/auth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState<string>("");
@@ -15,34 +15,12 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/sign-in", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const token = data.token;
-
-        if (token) {
-          setJwtToken(token);
-          router.push("/");
-          console.log("Welcome!");
-        } else {
-          setError("Token not found in response.");
-          console.log("Token not found in response.");
-        }
-      } else {
-        const errorMessage = `Login failed with status: ${response.status}`;
-        setError(errorMessage);
-        console.log("Log in Failed");
-      }
+      await login(email, password);
+      router.push("/");
+      console.log("Welcome!");
     } catch (error) {
       console.error("An error occurred while logging in:", error);
-      setError("An error occurred while logging in. Please try again.");
+      setError(error.message || "An error occurred while logging in. Please try again.");
     }
   };
 

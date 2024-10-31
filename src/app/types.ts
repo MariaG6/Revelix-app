@@ -1,7 +1,19 @@
+export interface LayoutContextProps {
+  showNavbarAndFooter: boolean;
+}
+
 export interface User {
   id: string;
   email: string;
   password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+}
+
+export interface AuthLayoutProps {
+  children: React.ReactNode;
 }
 
 export interface MovieData {
@@ -17,11 +29,20 @@ export interface MovieData {
   title: string;
 }
 
+export interface MoviesRowProps {
+  title: string;
+  movies: MovieData[];
+}
+
+export interface FetchMoviesResult {
+  available: MovieData[];
+  comingSoon: MovieData[];
+}
+
 export interface Genre {
   genres: { id: string, name: string }[];
 }
 
-export interface MoviesRowProps {
-  title: string;
-  movies: MovieData[];
+export interface GenreSelectorProps {
+  genres: Genre[];
 }

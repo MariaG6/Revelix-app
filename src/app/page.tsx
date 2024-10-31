@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
       <NavbarClient/>
       <HomeClient/>
-      <FooterClient/>
+      <FooterClient/> 
     </div>
   )
 }

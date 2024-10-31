@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 327px;
+    width: 343px;
     gap: 10px; 
   }
   
   .loginForm input {
-    width: 100%;
+    width: 327px;
     padding: 10px;
     border: 1px solid var(--background-color-purple);
     border-radius: 8px;
@@ -18,7 +18,7 @@
   }
   
   .loginForm button {
-    width: 327px;
+    width: 348px;
     padding: 10px;
     background-color: var(--background-color-purple);
     color: var(--text-color-white);
@@ -29,10 +29,10 @@
 
   .loginForm button:hover {
     background-color: var(--background-color-purple-hover);
-    transform: scale(1.05); 
+    transform: scale(1.02); 
   }
   
   .error {
-    color: red;
+    color: var(--color-error);
     font-size: 14px;
   }
