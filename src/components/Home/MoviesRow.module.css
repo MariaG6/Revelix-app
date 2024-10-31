@@ -13,8 +13,11 @@
   .moviesRow {
     display: flex;
     gap: 20px;
-    overflow-x: auto; 
-    white-space: nowrap;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-color: var(--background-color-purple) var(--background-color-grey);
+    scrollbar-width: thin;
+    scrollbar-gutter: stable both-edges;
   }
   
   .movieThumbnail {

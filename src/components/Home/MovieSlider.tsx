@@ -1,10 +1,11 @@
 import React from 'react';
 import Slider from "react-slick";
+import { MoviesRowProps } from '@/app/types';
 import styles from './MovieSlider.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-export default function MovieSlider({ movies }) {
+const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -12,22 +13,19 @@ export default function MovieSlider({ movies }) {
     autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    cssEase: "linear",
     arrows: false, 
   };
 
-  const shortDescription = (description, maxLength) => {
+  const shortDescription = (description: string, maxLength: number) => {
     if (description.length <= maxLength) return description;
     const shorted = description.substr(0, description.lastIndexOf(' ', maxLength));
     return `${shorted}...`;
   };
 
-  const filteredMovies = movies.filter(movie => movie.poster);
-
   return (
     <div className={styles.sliderContainer}>
       <Slider {...settings}>
-        {filteredMovies.map(movie => (
+        {movies.map(movie => (
           <div key={movie.id} className={styles.slide}>
             <div className={styles.content} style={{ backgroundImage: `url(${movie.poster})` }}>
               <div className={styles.overlay}>
@@ -47,3 +45,5 @@ export default function MovieSlider({ movies }) {
     </div>
   );
 }
+
+export default MovieSlider;

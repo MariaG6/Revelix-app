@@ -4,6 +4,7 @@ import styles from './MoviesRow.module.css';
 import Image from 'next/image';
 
 const MoviesRow: React.FC<MoviesRowProps> = ({ title, movies }) => {
+
   return (
     <div className={styles.moviesRowContainer}>
       <h2 className={styles.rowTitle}>{title}</h2>

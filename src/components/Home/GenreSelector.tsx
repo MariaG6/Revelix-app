@@ -1,29 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./GenreSelector.module.css";
-import { Genre } from "@/app/types";
+import { GenreSelectorProps } from "@/app/types";
+import { useRouter } from "next/navigation";
 
-const GenreSelector: React.FC<Genre> = ({ genres }) => {
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+const GenreSelector: React.FC<GenreSelectorProps> = ({ genres }) => {
+  const router = useRouter();
 
-  const handleGenreClick = (genreId: string) => {
-    setSelectedGenre(genreId);
+  const handleGenreSelect = (genreId: string) => {
+    router.push(`/genres/${genreId}`);
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.genreBtn}>
-        {genres.map((genre) => (
-          <button
-            key={genre.id}
-            onClick={() => handleGenreClick(genre.id)}
-            className={selectedGenre === genre.id ? "active" : ""}
-          >
-            {genre.name}
-          </button>
-        ))}
-      </div>
+  <div className={styles.genreSelector}>
+      {genres.map(genre => (
+        <button key={genre.id} onClick={() => handleGenreSelect(genre.id)} className={styles.genreButton}>
+          {genre.name}
+        </button>
+      ))}
     </div>
   );
 };
 
 export default GenreSelector;
+
+
+
