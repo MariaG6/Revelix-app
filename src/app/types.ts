@@ -38,7 +38,7 @@ export interface FetchMoviesResult {
 export interface Genres {
   genres: { id: string, name: string }[];
 }
-export interface Genres {
+export interface Genre {
   id: string;
   name: string;
 }
