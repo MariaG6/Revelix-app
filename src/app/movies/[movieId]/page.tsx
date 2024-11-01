@@ -18,7 +18,6 @@ const MoviePage = () => {
   const params = useParams();
   const movieName = params.movieId;
   const [movie, setMovie] = useState<MovieData | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [genreName, setGenreName] = useState<string>("Unknown");
@@ -56,7 +55,7 @@ const MoviePage = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setError("Failed to fetch data. Please try again later.");
+        console.log("Failed to fetch data. Please try again later.");
         setLoading(false);
       }
     };

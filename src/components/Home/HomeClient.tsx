@@ -34,8 +34,6 @@ export default function HomeClient() {
         setHighlightedMovies(highlightedMoviesData);
         setMyList(myListData.myList);
 
-        console.log(myListData.myList)
-
         setLoading(false); 
       } catch (error) {
         console.error("Error fetching data:", error);
