@@ -62,6 +62,7 @@ export default function HomeClient() {
             if (genreMovies.length === 0) return null;
             return <MoviesRow key={genre.id} title={genre.name} movies={genreMovies} />;
           })}
+          <MoviesRow title='Coming soon' movies={comingSoonMovies} />
         </>
       )}
     </div>
