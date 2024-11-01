@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./NavBar.module.css";
+import styles from './Navbar.module.css';
 import Image from "next/image";
 
 export function UserProfile() {
