@@ -6,7 +6,7 @@ import GenreSelector from "./GenreSelector";
 import MoviesRow from "./MoviesRow";
 import { fetchMovies, fetchGenres, classifyMoviesByGenre, fetchHighlightedMovies } from "@/api/movies";
 import styles from "./HomeClient.module.css";
-import Loading from "../ui/Loading";
+import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 
 export default function HomeClient() {

@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from './AuthPage.module.css';
-import { AuthLayoutProps } from '../types';
 
-
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div>
       <div className={styles.backgroundImg} />

@@ -12,10 +12,6 @@ export interface LoginResponse {
   token: string;
 }
 
-export interface AuthLayoutProps {
-  children: React.ReactNode;
-}
-
 export interface MovieData {
   highlighted: boolean;
   rating: number | null;

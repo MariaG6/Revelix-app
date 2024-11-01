@@ -1,13 +1,13 @@
-import FooterClient from "@/components/FooterClient/FooterClient";
-import { NavbarClient } from "@/components/NavbarClient";
+import { Footer } from "@/components/Layout/Footer";
+import { Navbar } from "@/components/Layout/Navbar";
 import React from "react";
 
 const GenreLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
-      <NavbarClient />
+      <Navbar />
       {children}
-      <FooterClient />
+      <Footer />
     </>
   );
 };

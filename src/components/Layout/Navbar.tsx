@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useRef } from "react";
-import styles from "./NavBar.module.css";
+import styles from "./Navbar.module.css";
 
 import { removeJwtToken } from "@/api/route";
 import { UserProfile } from "./UserProfile";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export function NavbarClient() {
+export function Navbar() {
   const [showLogout, setShowLogout] = useState(false);
   const router = useRouter();
   const profileRef = useRef<HTMLDivElement>(null);

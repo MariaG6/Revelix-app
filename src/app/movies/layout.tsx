@@ -1,14 +1,15 @@
 import { Footer } from "@/components/Layout/Footer";
-import HomeClient from "@/components/Home/HomeClient";
 import { Navbar } from "@/components/Layout/Navbar";
 import React from "react";
 
-export default function HomePage() {
+const MovieLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div>
+    <>
       <Navbar />
-      <HomeClient />
+      {children}
       <Footer />
-    </div>
+    </>
   );
-}
+};
+
+export default MovieLayout;

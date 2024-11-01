@@ -58,3 +58,12 @@ export const classifyMoviesByGenre = (
     return acc;
   }, {} as Record<string, MovieData[]>);
 };
+
+export const normalizeTitle = (title: string) => {
+  return title
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') 
+    .replace(/[.,]/g, '')
+    .replace(/\s+/g, '-');
+};

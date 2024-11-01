@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./FooterClient.module.css";
+import styles from "./Footer.module.css";
 
-function FooterClient() {
+export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.column}>
@@ -34,5 +34,3 @@ function FooterClient() {
     </footer>
   );
 }
-
-export default FooterClient;
