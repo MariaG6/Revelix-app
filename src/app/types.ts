@@ -35,8 +35,12 @@ export interface FetchMoviesResult {
   comingSoon: MovieData[];
 }
 
-export interface Genre {
+export interface Genres {
   genres: { id: string, name: string }[];
+}
+export interface Genres {
+  id: string;
+  name: string;
 }
 
 export interface GenreSelectorProps {
