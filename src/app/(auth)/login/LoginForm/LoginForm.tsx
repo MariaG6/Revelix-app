@@ -20,7 +20,11 @@ export default function LoginForm() {
       console.log("Welcome!");
     } catch (error) {
       console.error("An error occurred while logging in:", error);
-      setError(error.message || "An error occurred while logging in. Please try again.");
+      if (error instanceof Error) {
+        setError(error.message || "An error occurred while logging in. Please try again.");
+      } else {
+        setError("An error occurred while logging in. Please try again.");
+      }
     }
   };
 
