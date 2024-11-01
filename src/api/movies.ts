@@ -1,5 +1,7 @@
-import { MovieData, Genre, FetchMoviesResult } from "@/app/types";
+import { MovieData, Genre, FetchMoviesResult, MoviesRowProps } from "@/app/types";
 import { getJwtToken } from "./route";
+
+// Movies
 
 export const fetchMovies = async (): Promise<FetchMoviesResult> => {
   const token = getJwtToken();
@@ -22,6 +24,28 @@ export const fetchMovies = async (): Promise<FetchMoviesResult> => {
   return { available, comingSoon };
 };
 
+export const fetchHighlightedMovies = async (): Promise<MovieData[]> => {
+  try {
+    const { available, comingSoon } = await fetchMovies();
+    const allMovies = [...available, ...comingSoon];
+    const highlightedMovies = allMovies.filter((movie) => movie.highlighted);
+    return highlightedMovies;
+  } catch (error) {
+    console.error("Error fetching highlighted movies:", error);
+    return [];
+  }
+};
+
+export const normalizeTitle = (title: string) => {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[.,]/g, "")
+    .replace(/\s+/g, "-");
+};
+
+// Genres
 export const fetchGenres = async (): Promise<Genre[]> => {
   const token = getJwtToken();
   const res = await fetch("/api/genres", {
@@ -33,18 +57,6 @@ export const fetchGenres = async (): Promise<Genre[]> => {
   });
   const data: Genre[] = await res.json();
   return data;
-};
-
-export const fetchHighlightedMovies = async (): Promise<MovieData[]> => {
-  try {
-    const { available, comingSoon } = await fetchMovies();
-    const allMovies = [...available, ...comingSoon];
-    const highlightedMovies = allMovies.filter((movie) => movie.highlighted);
-    return highlightedMovies;
-  } catch (error) {
-    console.error("Error fetching highlighted movies:", error);
-    return [];
-  }
 };
 
 export const classifyMoviesByGenre = (
@@ -59,11 +71,79 @@ export const classifyMoviesByGenre = (
   }, {} as Record<string, MovieData[]>);
 };
 
-export const normalizeTitle = (title: string) => {
-  return title
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') 
-    .replace(/[.,]/g, '')
-    .replace(/\s+/g, '-');
+// User List
+
+export const addToMyList = async (movieId: string) => {
+  const token = getJwtToken();
+  const response = await fetch(`/api/user/list/`, {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ id: movieId }),
+  });
+
+  if (!response.ok) {
+    console.log("Failed to add movie to MyList");
+  }
+
+  const updatedList = await response.json();
+  localStorage.setItem("myList", JSON.stringify(updatedList));
+  return updatedList;
+};
+
+export const removeFromMyList = async (movieId: string) => {
+  const token = getJwtToken();
+  const response = await fetch(`/api/user/list/${movieId}/`, {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    console.log("Failed to remove movie from MyList");
+  }
+
+  const updatedList = await response.json();
+  localStorage.setItem("myList", JSON.stringify(updatedList));
+  return updatedList;
+};
+
+export const getMyList = async () => {
+  const token = getJwtToken();
+  const localList = localStorage.getItem("myList");
+  if (localList) {
+    return JSON.parse(localList);
+  }
+
+  const response = await fetch(`/api/user/list/`, {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch MyList");
+  }
+
+  const myList = await response.json();
+  localStorage.setItem("myList", JSON.stringify(myList));
+  return myList;
+};
+
+export const findMoviesByIds = (
+  movies: MovieData[],
+  idArray: string[]
+): MoviesRowProps => {
+  const filteredMovies = movies.filter((movie) => idArray.includes(movie.id));
+  return {
+    title: "Filtered Movies",
+    movies: filteredMovies,
+  };
 };

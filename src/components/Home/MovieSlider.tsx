@@ -4,6 +4,7 @@ import { MoviesRowProps } from '@/app/types';
 import styles from './MovieSlider.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { normalizeTitle } from '@/api/movies';
 
 const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
   const settings = {
@@ -33,7 +34,7 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                 <p className={styles.description}>{shortDescription(movie.description, 165)}</p>
                 <button 
                   className={styles.button} 
-                  onClick={() => window.location.href = `/movies/${movie.id}`}
+                  onClick={() => window.location.href = `/movies/${normalizeTitle(movie.title)}`}
                 >
                   Discover
                 </button>

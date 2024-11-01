@@ -37,7 +37,7 @@
   cursor: pointer;
 }
 
-.button a {
+.button, .buttonComingSoon a {
   color: var(--text-color-white);
   text-decoration: none;
   font-size: 24px;
@@ -52,6 +52,20 @@
 }
 
 .buttonPlay {
+  color: var(--text-color-white);
+  background-color: var(--background-color-purple);
+}
+
+.buttonComingSoon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  text-align: center;
+  text-decoration: none;
+  width: 343px;
+  height: 57px;
+  cursor: pointer;
   color: var(--text-color-white);
   background-color: var(--background-color-purple);
 }
@@ -75,7 +89,7 @@
 }
 
 .list li {
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 .addToList {
@@ -85,6 +99,27 @@
   margin-top: 10px;
   font-weight: bold;
   color: var(--background-color-purple);
+}
+.buttonList {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-color-white);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.plusSign {
+  font-size: 24px;
+  line-height: 0;
+  color: var(--background-color-purple);
+  width: 41px;
+  height: 40px;
+  top: 802px;
+  border: 3px;
 }
 
 .metadata {
@@ -96,6 +131,7 @@
 }
 
 .title {
+  margin-top: 10px;
   margin-bottom: 10px;
   color: var(--text-color-white);
   font-size: 76px;

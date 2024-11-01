@@ -3,10 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import styles from "./MoviePage.module.css";
 import { MovieData, Genre } from "../../types";
-import { fetchMovies, fetchGenres } from "@/api/movies";
+import {
+  normalizeTitle,
+  fetchMovies,
+  fetchGenres,
+  addToMyList,
+  removeFromMyList,
+  getMyList,
+} from "@/api/movies";
 import Loading from "@/components/Loading";
-import { normalizeTitle } from "@/api/movies";
-import { generateKeySync } from "crypto";
+import {formatDate} from "@/api/services";
 
 const MoviePage = () => {
   const params = useParams();
@@ -15,13 +21,16 @@ const MoviePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [genreName, setGenreName] = useState<string>('Unknown');
+  const [genreName, setGenreName] = useState<string>("Unknown");
+  const [myList, setMyList] = useState<string[]>([]);
+  const [isInMyList, setIsInMyList] = useState<boolean>(false);
+  const [comingSoonMovies, setComingSoonMovies] = useState<MovieData[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         if (!movieName) return;
-        const [{ available, comingSoon }, genres ] = await Promise.all([
+        const [{ available, comingSoon }, genres] = await Promise.all([
           fetchMovies(),
           fetchGenres(),
         ]);
@@ -31,10 +40,16 @@ const MoviePage = () => {
         );
         setMovie(movieData || null);
         setGenres(genres);
+        setComingSoonMovies(comingSoon);
+
+        const myListData = await getMyList();
+        setMyList(Array.isArray(myListData) ? myListData : []);
 
         if (movieData) {
-          const genreName = genres.find(genre => genre.id === movieData.genre)?.name || 'Unknown';
-          setGenreName(genreName);
+          const genreMovieTitle =
+            genres.find((genre) => genre.id === movieData.genre)?.name ||
+            "Unknown";
+          setGenreName(genreMovieTitle);
         }
 
         setLoading(false);
@@ -49,6 +64,28 @@ const MoviePage = () => {
     loadData();
   }, [movieName]);
 
+  const handleAddToMyList = async () => {
+    if (movie) {
+      try {
+        const updatedMyList = await addToMyList(movie.id);
+        setMyList(updatedMyList);
+      } catch (error) {
+        console.error("Error adding movie to MyList:", error);
+      }
+    }
+  };
+
+  const handleRemoveFromMyList = async () => {
+    if (movie) {
+      try {
+        const updatedMyList = await removeFromMyList(movie.id);
+        setMyList(updatedMyList);
+      } catch (error) {
+        console.error("Error removing movie from MyList:", error);
+      }
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -56,6 +93,10 @@ const MoviePage = () => {
   if (!movie) {
     return <div className={styles.noMoviesMessage}>Movie not found</div>;
   }
+
+  // ComingSoon Movies
+  const isComingSoon = comingSoonMovies.some((m) => m.id === movie.id); 
+  const availableDate = isComingSoon ? formatDate(comingSoonMovies.find((m) => m.id === movie.id)?.availableDate || '') : null;
 
   return (
     <div className={styles.container}>
@@ -72,32 +113,46 @@ const MoviePage = () => {
           >
             Trailer
           </a>
-          <a
-            href={`/play/${movie.id}`}
-            className={`${styles.button} ${styles.buttonPlay}`}
-          >
-            Play
-          </a>
+          {isComingSoon ? (
+            <div className={` ${styles.buttonComingSoon}`}>
+              Coming Soon {availableDate}
+            </div>
+          ) : (
+            <a
+              href={`/play/${movie.id}`}
+              className={`${styles.button} ${styles.buttonPlay}`}
+            >
+              Play
+            </a>
+          )}
         </div>
       </div>
 
       <div className={styles.content}>
         <div className={styles.addToList}>
-          <span>+</span> <p className={styles.metadata}>Add to my list</p>
+          <button
+            className={styles.buttonList}
+            onClick={isInMyList ? handleRemoveFromMyList : handleAddToMyList}
+          >
+            <span className={styles.plusSign}>+</span>
+            <p className={styles.metadata}>
+              {isInMyList ? "Remove from My List" : "Add to My List"}
+            </p>
+          </button>
         </div>
 
         <div className={styles.metadata}>
           <ul className={styles.list}>
             <li>
-              <strong> Rating:  </strong>
+              <strong> Rating: </strong>
               {"★".repeat(movie.rating ?? 0)}
             </li>
             <li>
-              <strong> Cast:  </strong>
+              <strong> Cast: </strong>
               {movie.cast}
             </li>
             <li>
-              <strong>Genre:</strong>  {genreName}
+              <strong>Genre:</strong> {genreName}
             </li>
           </ul>
           <div className={styles.title}>{movie.title}</div>

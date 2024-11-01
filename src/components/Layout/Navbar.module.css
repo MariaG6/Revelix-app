@@ -10,9 +10,9 @@
 .homeLink {
   text-decoration: none;
   font-weight: bold;
-  color: var(--text-color-white);
+  color: var(--background-color-purple);
   font-size: 1rem;
-  transition: var(--background-color-purple) 0.3s ease;
+  transition: var(--background-color-purple-hover) 0.3s ease;
   padding-left: 20px;
 }
 
@@ -22,7 +22,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--background-color-light-grey);
+  background: var(--background-color-grey);
   cursor: pointer;
   margin: 10px 20px;
 }
