@@ -22,7 +22,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--background-color-grey);
+  background: var(--background-color-light-grey);
   cursor: pointer;
   margin: 10px 20px;
 }

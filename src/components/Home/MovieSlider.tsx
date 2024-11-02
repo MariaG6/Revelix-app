@@ -47,9 +47,8 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                         movie.title
                       )}`)
                     }
-                    tabIndex={-1}
                   >
-                    Discover
+                   <p>Discover</p>
                   </button>
               </div>
             </div>
