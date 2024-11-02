@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { MoviesRowProps } from "@/app/types";
 import styles from "./MovieSlider.module.css";
@@ -18,6 +19,8 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
     focusOnSelect: false,
   };
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const shortDescription = (description: string, maxLength: number) => {
     if (description.length <= maxLength) return description;
     const shorted = description.substr(
@@ -30,8 +33,12 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
   return (
     <div className={styles.sliderContainer}>
       <Slider {...settings}>
-        {movies.map((movie) => (
-          <div key={movie.id} className={styles.slide}>
+        {movies.map((movie, index) => (
+          <div
+            key={movie.id}
+            className={styles.slide}
+            aria-hidden={index !== currentSlide}
+          >
             <div
               className={styles.content}
               style={{ backgroundImage: `url(${movie.poster})` }}
@@ -44,11 +51,8 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                 <button
                   className={styles.button}
                   onClick={() =>
-                    (window.location.href = `/movies/${normalizeTitle(
-                      movie.title
-                    )}`)
+                    (window.location.href = `/movies/${normalizeTitle(movie.title)}`)
                   }
-                  aria-label={`Discover details about ${movie.title}`}
                 >
                   Discover
                 </button>
