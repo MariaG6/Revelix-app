@@ -138,9 +138,16 @@ export const getMyList = async () => {
 };
 
 export const findMoviesByIds = (
-  movies: MovieData[],
-  idArray: string[]
+  movies: MovieData[] | undefined,
+  idArray: string[] | undefined
 ): MoviesRowProps => {
+  if (!movies || !idArray) {
+    return {
+      title: "Filtered Movies",
+      movies: [],
+    };
+  }
+
   const filteredMovies = movies.filter((movie) => idArray.includes(movie.id));
   return {
     title: "Filtered Movies",
