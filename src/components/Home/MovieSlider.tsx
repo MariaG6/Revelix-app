@@ -15,7 +15,7 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    focusOnSelect: false, 
+    focusOnSelect: false,
   };
 
   const shortDescription = (description: string, maxLength: number) => {
@@ -41,16 +41,17 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                 <p className={styles.description}>
                   {shortDescription(movie.description, 165)}
                 </p>
-                  <button
-                    className={styles.button}
-                    onClick={() =>
-                      (window.location.href = `/movies/${normalizeTitle(
-                        movie.title
-                      )}`)
-                    }
-                  >
-                   Discover
-                  </button>
+                <button
+                  className={styles.button}
+                  onClick={() =>
+                    (window.location.href = `/movies/${normalizeTitle(
+                      movie.title
+                    )}`)
+                  }
+                  aria-label={`Discover details about ${movie.title}`}
+                >
+                  Discover
+                </button>
               </div>
             </div>
           </div>
