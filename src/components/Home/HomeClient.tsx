@@ -20,8 +20,8 @@ export default function HomeClient() {
   const [highlightedMovies, setHighlightedMovies] = useState<MovieData[]>([]);
   const [availableMovies, setAvailableMovies] = useState<MovieData[]>([]);
   const [comingSoonMovies, setComingSoonMovies] = useState<MovieData[]>([]);
-  const [myList, setMyList] = useState<string[]>([]); 
-  const [myListMovies, setMyListMovies] = useState<MovieData[]>([]); 
+  const [myList, setMyList] = useState<string[]>([]);
+  const [myListMovies, setMyListMovies] = useState<MovieData[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +50,10 @@ export default function HomeClient() {
         setMyList(myListData.myList);
 
         // Encuentra las películas en la lista del usuario
-        const myListMoviesData = findMoviesByIds([...available, ...comingSoon], myListData.myList);
+        const myListMoviesData = findMoviesByIds(
+          [...available, ...comingSoon],
+          myListData.myList
+        );
         setMyListMovies(myListMoviesData.movies); // Establece las películas de la lista del usuario en el estado
 
         setLoading(false); // Cambiar el estado de carga
@@ -80,12 +83,14 @@ export default function HomeClient() {
         <div className="error">{error}</div>
       ) : (
         <>
-          <MovieSlider title="Highlighted movies" movies={highlightedMovies} />  {/* Componente películas destacadas */}
-          <GenreSelector genres={genres} /> {/* Componente para seleccionar géneros */}
+          <MovieSlider title="Highlighted movies" movies={highlightedMovies} />{" "}
+          {/* Componente películas destacadas */}
+          <GenreSelector genres={genres} />{" "}
+          {/* Componente para seleccionar géneros */}
           {genres.map((genre) => {
             const genreMovies = moviesByGenre[genre.id] || [];
             if (genreMovies.length === 0) return null;
-            return ( 
+            return (
               // Componente para mostrar las películas por género
               <MoviesRow
                 key={genre.id}
@@ -94,8 +99,12 @@ export default function HomeClient() {
               />
             );
           })}
-          <MoviesRow title="Coming soon" movies={comingSoonMovies} /> {/* Componente para mostrar la lista de películas coming son */}
-          <MoviesRow title="My List" movies={myListMovies} /> {/* Componente para mostrar la lista de películas del usuario */}
+          {comingSoonMovies.length > 0 && (
+            <MoviesRow title="Coming soon" movies={comingSoonMovies} /> // Componente para mostrar la lista de películas próximas
+          )}
+          {myListMovies.length > 0 && (
+            <MoviesRow title="My List" movies={myListMovies} /> // Componente para mostrar la lista de películas del usuario
+          )}
         </>
       )}
     </div>
