@@ -20,7 +20,8 @@ export default function HomeClient() {
   const [highlightedMovies, setHighlightedMovies] = useState<MovieData[]>([]);
   const [availableMovies, setAvailableMovies] = useState<MovieData[]>([]);
   const [comingSoonMovies, setComingSoonMovies] = useState<MovieData[]>([]);
-  const [myList, setMyList] = useState<string[]>([]);
+  const [myList, setMyList] = useState<string[]>([]); 
+  const [myListMovies, setMyListMovies] = useState<MovieData[]>([]); 
   const [genres, setGenres] = useState<Genre[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -48,6 +49,10 @@ export default function HomeClient() {
         setHighlightedMovies(highlightedMoviesData);
         setMyList(myListData.myList);
 
+        // Encuentra las películas en la lista del usuario
+        const myListMoviesData = findMoviesByIds([...available, ...comingSoon], myListData.myList);
+        setMyListMovies(myListMoviesData.movies); // Establece las películas de la lista del usuario en el estado
+
         setLoading(false); // Cambiar el estado de carga
       } catch (error) {
         // Manejo de errores
@@ -68,12 +73,6 @@ export default function HomeClient() {
 
   // Clasifica las películas por género
   const moviesByGenre = classifyMoviesByGenre(availableMovies);
-
-  // Encuentra las películas en la lista del usuario
-  const myListMovies = findMoviesByIds(
-    [...availableMovies, ...comingSoonMovies],
-    myList
-  );
 
   return (
     <div className={styles.homeClientContainer}>
@@ -96,7 +95,7 @@ export default function HomeClient() {
             );
           })}
           <MoviesRow title="Coming soon" movies={comingSoonMovies} /> {/* Componente para mostrar la lista de películas coming son */}
-          <MoviesRow title="My List" movies={myListMovies.movies} /> {/* Componente para mostrar la lista de películas del usuario */}
+          <MoviesRow title="My List" movies={myListMovies} /> {/* Componente para mostrar la lista de películas del usuario */}
         </>
       )}
     </div>

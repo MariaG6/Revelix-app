@@ -13,6 +13,7 @@ import {
 } from "@/api/movies";
 import Loading from "@/components/Loading";
 import {formatDate} from "@/api/services";
+import { FaStar, FaPlus, FaCheck } from "react-icons/fa";
 
 const MoviePage = () => {
   const params = useParams();
@@ -31,9 +32,10 @@ const MoviePage = () => {
         if (!movieName) return;
 
         // Solicitudes a la API
-        const [{ available, comingSoon }, genres] = await Promise.all([
+        const [{ available, comingSoon }, genres, myList] = await Promise.all([
           fetchMovies(),
           fetchGenres(),
+          getMyList()
         ]);
 
         const allMovies = [...available, ...comingSoon];
@@ -44,15 +46,18 @@ const MoviePage = () => {
         setMovie(movieData || null);
         setGenres(genres);
         setComingSoonMovies(comingSoon);
-
-        const myListData = await getMyList(); // Obtener la lista de películas
-        setMyList(Array.isArray(myListData) ? myListData : []); // Establecer la lista de películas
+        setMyList(myList)
 
         if (movieData) {
           const genreMovieTitle = // Encontrar el nombre del género de la película
             genres.find((genre) => genre.id === movieData.genre)?.name ||
             "Unknown";
           setGenreName(genreMovieTitle);
+
+          // Verificar si la película está en la lista del usuario
+          const arrayList = myList.myList || [];
+          const responseList = arrayList.includes(movieData.id);
+          setIsInMyList(responseList)
         }
 
         setLoading(false); // Cambiar el estado de carga
@@ -67,11 +72,17 @@ const MoviePage = () => {
   }, [movieName]); // Ejecuta el efecto cuando cambia el movieName
 
   // Agregar película a la lista del usuario
-  const handleAddToMyList = async () => { 
+  const handleAddToMyList = async () => {
     if (movie) {
       try {
         const updatedMyList = await addToMyList(movie.id);
         setMyList(updatedMyList);
+
+        // Verificar si la película está en la lista del usuario
+        const arrayList = updatedMyList.myList || [];
+        const responseList = arrayList.includes(movie.id);
+        setIsInMyList(responseList)
+
       } catch (error) {
         console.error("Error adding movie to MyList:", error);
       }
@@ -79,11 +90,16 @@ const MoviePage = () => {
   };
 
   // Eliminar película de la lista del usuario
-  const handleRemoveFromMyList = async () => { 
+  const handleRemoveFromMyList = async () => {
     if (movie) {
       try {
         const updatedMyList = await removeFromMyList(movie.id);
         setMyList(updatedMyList);
+
+        // Verificar si la película está en la lista del usuario
+        const arrayList = updatedMyList.myList || [];
+        const responseList = arrayList.includes(movie.id);
+        setIsInMyList(responseList)
       } catch (error) {
         console.error("Error removing movie from MyList:", error);
       }
@@ -140,7 +156,7 @@ const MoviePage = () => {
             className={styles.buttonList}
             onClick={isInMyList ? handleRemoveFromMyList : handleAddToMyList}
           >
-            <span className={styles.plusSign}>+</span>
+            <span className={styles.plusSign}>{isInMyList ? <FaStar color="var(--background-color-purple)" /> : <FaPlus />}</span>
             <p className={styles.metadata}>
               {isInMyList ? "Remove from My List" : "Add to My List"} 
             </p>
@@ -151,7 +167,9 @@ const MoviePage = () => {
           <ul className={styles.list}>
             <li>
               <strong> Rating: </strong>
-              {"★".repeat(movie.rating ?? 0)}
+              {Array.from({ length: movie.rating ?? 0 }).map((_, index) => (
+                <FaStar key={index} color="gold" />
+              ))}
             </li>
             <li>
               <strong> Cast: </strong>

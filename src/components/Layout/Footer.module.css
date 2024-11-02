@@ -5,6 +5,8 @@
   background-color: var(--background-color-black);
   color: var(--text-color-white);
   flex-wrap: wrap;
+  position: relative;
+  z-index: 10; 
 }
 
 .column {
