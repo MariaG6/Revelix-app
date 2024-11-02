@@ -29,41 +29,45 @@ const MoviePage = () => {
     const loadData = async () => {
       try {
         if (!movieName) return;
+
+        // Solicitudes a la API
         const [{ available, comingSoon }, genres] = await Promise.all([
           fetchMovies(),
           fetchGenres(),
         ]);
+
         const allMovies = [...available, ...comingSoon];
-        const movieData = allMovies.find(
+        const movieData = allMovies.find( // Encontrar película por su título
           (movie: MovieData) => normalizeTitle(movie.title) === movieName
         );
+        // Establecer valores en los estados
         setMovie(movieData || null);
         setGenres(genres);
         setComingSoonMovies(comingSoon);
 
-        const myListData = await getMyList();
-        setMyList(Array.isArray(myListData) ? myListData : []);
+        const myListData = await getMyList(); // Obtener la lista de películas
+        setMyList(Array.isArray(myListData) ? myListData : []); // Establecer la lista de películas
 
         if (movieData) {
-          const genreMovieTitle =
+          const genreMovieTitle = // Encontrar el nombre del género de la película
             genres.find((genre) => genre.id === movieData.genre)?.name ||
             "Unknown";
           setGenreName(genreMovieTitle);
         }
 
-        setLoading(false);
-        setLoading(false);
-      } catch (error) {
+        setLoading(false); // Cambiar el estado de carga
+      } catch (error) { // Manejo de errores
         console.error("Error fetching data:", error);
         console.log("Failed to fetch data. Please try again later.");
         setLoading(false);
       }
     };
 
-    loadData();
-  }, [movieName]);
+    loadData();  // Llama a la función para cargar los datos
+  }, [movieName]); // Ejecuta el efecto cuando cambia el movieName
 
-  const handleAddToMyList = async () => {
+  // Agregar película a la lista del usuario
+  const handleAddToMyList = async () => { 
     if (movie) {
       try {
         const updatedMyList = await addToMyList(movie.id);
@@ -74,7 +78,8 @@ const MoviePage = () => {
     }
   };
 
-  const handleRemoveFromMyList = async () => {
+  // Eliminar película de la lista del usuario
+  const handleRemoveFromMyList = async () => { 
     if (movie) {
       try {
         const updatedMyList = await removeFromMyList(movie.id);
@@ -85,15 +90,17 @@ const MoviePage = () => {
     }
   };
 
+    // Muestra componente Loading
   if (loading) {
     return <Loading />;
   }
 
+  // Mensaje de película no encontrada
   if (!movie) {
-    return <div className={styles.noMoviesMessage}>Movie not found</div>;
+    return <div className={styles.noMoviesMessage}>Movie not found</div>; 
   }
 
-  // ComingSoon Movies
+  // Verifica si la película es coming soon
   const isComingSoon = comingSoonMovies.some((m) => m.id === movie.id); 
   const availableDate = isComingSoon ? formatDate(comingSoonMovies.find((m) => m.id === movie.id)?.availableDate || '') : null;
 
@@ -135,7 +142,7 @@ const MoviePage = () => {
           >
             <span className={styles.plusSign}>+</span>
             <p className={styles.metadata}>
-              {isInMyList ? "Remove from My List" : "Add to My List"}
+              {isInMyList ? "Remove from My List" : "Add to My List"} 
             </p>
           </button>
         </div>

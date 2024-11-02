@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React from "react";
 import Slider from "react-slick";
 import { MoviesRowProps } from "@/app/types";
 import styles from "./MovieSlider.module.css";
@@ -8,19 +7,18 @@ import "slick-carousel/slick/slick-theme.css";
 import { normalizeTitle } from "@/api/movies";
 
 const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    focusOnSelect: false,
-  };
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  autoplay: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+  focusOnSelect: false, 
+};
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-
+   // Función para acortar la descripción de la película
   const shortDescription = (description: string, maxLength: number) => {
     if (description.length <= maxLength) return description;
     const shorted = description.substr(
@@ -33,29 +31,28 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
   return (
     <div className={styles.sliderContainer}>
       <Slider {...settings}>
-        {movies.map((movie, index) => (
-          <div
-            key={movie.id}
-            className={styles.slide}
-            aria-hidden={index !== currentSlide}
-          >
+        {movies.map((movie) => (
+          <div key={movie.id} className={styles.slide}>
             <div
               className={styles.content}
               style={{ backgroundImage: `url(${movie.poster})` }}
             >
               <div className={styles.overlay}>
-                <h2 className={styles.title}>{movie.title}</h2>
-                <p className={styles.description}>
-                  {shortDescription(movie.description, 165)}
+                <h2 className={styles.title}>{movie.title}</h2> {/* Título */}
+                <p className={styles.description}> 
+                  {shortDescription(movie.description, 165)}  {/* Descripción corta */}
                 </p>
-                <button
-                  className={styles.button}
-                  onClick={() =>
-                    (window.location.href = `/movies/${normalizeTitle(movie.title)}`)
-                  }
-                >
-                  Discover
-                </button>
+                 {/* Botón para descubrir más */}
+                  <button 
+                    className={styles.button}
+                    onClick={() =>
+                      (window.location.href = `/movies/${normalizeTitle(
+                        movie.title
+                      )}`)
+                    }
+                  >
+                   Discover
+                  </button>
               </div>
             </div>
           </div>

@@ -25,13 +25,16 @@ const GenrePage = () => {
       try {
         if (!genreId) return;
 
+        // Solicitudes a la API
         const [{ available, comingSoon }, genresData, highlightedMoviesData, myListData] = await Promise.all([
           fetchMovies(),
           fetchGenres(),
           fetchHighlightedMovies(),
           getMyList()
         ]);
+        // Función para encontrar películas por sus IDs
         const moviesData = available.filter((movie: MovieData) => movie.genre === genreId);
+        // Establecer valores en los estados
         setMovies(moviesData);
         setGenres(genresData);
         setComingSoonMovies(comingSoon);
@@ -39,22 +42,24 @@ const GenrePage = () => {
         setAvailableMovies(available);
         setMyList(myListData.myList);
 
-        setLoading(false); 
-      } catch (error) {
+        setLoading(false); // Cambiar el estado de carga
+      } catch (error) { // Manejo de errores
         console.error("Error fetching data:", error);
         setError("Failed to fetch data. Please try again later.");
         setLoading(false); 
       }
     };
 
-    loadData();
-  }, [genreId]);
+    loadData(); // Llama a la función para cargar los datos
+  }, [genreId]); // Ejecuta el efecto cuando cambia el ID del género
 
+  // Muestra componente Loading
   if (loading) {
     return <Loading />;
   }
-
+  // Establece el nombre del género de la page
   const genreName = genres.find(genre => genre.id === genreId)?.name || 'Movies';
+   // Encuentra las películas en la lista del usuario
   const myListMovies = findMoviesByIds([...availableMovies, ...comingSoonMovies], myList);
 
   return (

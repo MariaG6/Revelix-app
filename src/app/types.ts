@@ -1,6 +1,10 @@
+// Propiedades del contexto de diseño
+
 export interface LayoutContextProps {
   showNavbarAndFooter: boolean;
 }
+
+// Información del usuario
 
 export interface User {
   id: string;
@@ -11,6 +15,8 @@ export interface User {
 export interface LoginResponse {
   token: string;
 }
+
+// Información de películas
 
 export interface MovieData {
   highlighted: boolean;
@@ -35,8 +41,10 @@ export interface FetchMoviesResult {
   comingSoon: MovieData[];
 }
 
+// Información de géneros
+
 export interface Genres {
-  genres: { id: string, name: string }[];
+  genres: { id: string; name: string }[];
 }
 export interface Genre {
   id: string;
