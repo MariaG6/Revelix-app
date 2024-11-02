@@ -15,6 +15,7 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
+    focusOnSelect: false, 
   };
 
   const shortDescription = (description: string, maxLength: number) => {
@@ -48,7 +49,7 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                       )}`)
                     }
                   >
-                   <p>Discover</p>
+                   Discover
                   </button>
               </div>
             </div>
