@@ -19,7 +19,6 @@ export const removeJwtToken = (): void => {
   const token = Cookies.get('jwtToken');
   if (token) {
     Cookies.remove('jwtToken', { path: '/' });
-    console.log('JWT token removed');
   } else {
     console.log('No JWT token found');
   }
