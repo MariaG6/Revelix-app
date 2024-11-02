@@ -40,7 +40,6 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                 <p className={styles.description}>
                   {shortDescription(movie.description, 165)}
                 </p>
-                {movie.title && (
                   <button
                     className={styles.button}
                     onClick={() =>
@@ -48,10 +47,10 @@ const MovieSlider: React.FC<MoviesRowProps> = ({ movies }) => {
                         movie.title
                       )}`)
                     }
+                    tabIndex={-1}
                   >
                     Discover
                   </button>
-                )}
               </div>
             </div>
           </div>
